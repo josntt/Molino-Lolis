@@ -1,0 +1,135 @@
+/* =================================================================
+    CORRECCIONES PARA EL MODO OSCURO DE BOOTSTRAP
+   ================================================================= */
+
+/* Para el botón de modo oscuro (ajusta si es necesario para tu diseño) */
+#theme-toggle-btn {
+    width: 40px; 
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50% !important;
+    padding: 0;
+}
+
+[data-bs-theme="dark"] {
+    .bg-warning-subtle {
+        background-color: #151100 !important;
+        color: #ffc107 !important;
+    }
+    
+    .bg-success-subtle {
+        background-color: #051b11 !important;
+        color: #198754 !important;
+    }
+
+    .text-success {
+        color: #48c58e !important;
+    }
+
+    .table-light {
+        --bs-table-bg: #32383e;
+        --bs-table-color: #f8f9fa;
+    }
+    
+    .bg-warning {
+         background-color: #070500 !important;
+         color: #ffc107 !important;
+    }
+    
+    .bg-warning .text-success.fw-bold {
+         color: #ffdb6a !important;
+    }
+
+    .admin-card:hover {
+        box-shadow: 0 10px 20px rgba(255, 255, 255, 0.05) !important;
+    }
+}
+
+
+/* =================================================================
+    ESTILOS DE LAS TARJETAS DEL DASHBOARD (COMBINADOS)
+   ================================================================= */
+
+/* --- Estado inicial y de hover de la tarjeta --- */
+.admin-card {
+    border: 0;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background-color: var(--bs-body-bg); /* Asegura que el fondo de la tarjeta respete el tema */
+    color: var(--bs-body-color); /* Asegura que el texto de la tarjeta respete el tema */
+
+
+    /* Estado inicial para animación de entrada */
+    opacity: 0;
+    transform: translateY(20px);
+    
+    /* Transición para el hover de la tarjeta */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* --- Efecto hover de la tarjeta --- */
+.admin-card:hover {
+    transform: translateY(-6px); /* La tarjeta "sube" */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Estado final (para animación de entrada con JS) --- */
+.admin-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+
+/* =================================================================
+   ESTILOS PARA LA ANIMACIÓN DE REEMPLAZO DE ÍCONOS 
+   ================================================================= */
+
+.icon-wrapper {
+    position: relative;
+    /* Usa el tamaño del ícono (3x) para definir el wrapper */
+    width: 3em; 
+    height: 3em;
+    margin: 0 auto;
+    /*  Permite que los íconos se superpongan correctamente
+       y que el `transform: rotateY` funcione */
+    perspective: 1000px; 
+}
+
+.icon-wrapper i {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* El ícono ocupa todo el wrapper */
+    height: 100%; /* El ícono ocupa todo el wrapper */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden; /* Oculta la parte trasera durante el giro */
+    transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out; /* Transición suave */
+}
+
+/* Icono inicial: visible y frontal */
+.icon-wrapper .icon-primary {
+    opacity: 1;
+    transform: rotateY(0deg); /* Mirando al frente */
+}
+
+/* Icono secundario: oculto y "detrás" */
+.icon-wrapper .icon-secondary {
+    opacity: 0;
+    transform: rotateY(180deg); /* Volteado hacia atrás */
+}
+
+/* Cuando la tarjeta tiene hover: */
+.admin-card:hover .icon-wrapper .icon-primary {
+    opacity: 0;
+    transform: rotateY(-180deg); /* El primario gira hacia atrás y desaparece */
+}
+
+.admin-card:hover .icon-wrapper .icon-secondary {
+    opacity: 1;
+    transform: rotateY(0deg); /* El secundario gira hacia el frente y aparece */
+}
